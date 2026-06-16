@@ -121,19 +121,16 @@ function SkillBar({ skill, accent, index }: { skill: Skill; accent: keyof typeof
       transition={{ duration: 0.35, delay: index * 0.05 }}
       className="group"
     >
-      <div className="flex items-center justify-between mb-1.5">
-        <div className="flex items-center gap-2">
-          <ChevronRight className={`w-3 h-3 ${a.text} shrink-0`} />
-          <span className="text-sm text-foreground group-hover:text-white transition-colors duration-150">
-            {skill.name}
+      <div className="flex items-center gap-2 mb-1.5">
+        <ChevronRight className={`w-3 h-3 ${a.text} shrink-0`} />
+        <span className="text-sm text-foreground group-hover:text-white transition-colors duration-150">
+          {skill.name}
+        </span>
+        {skill.tag && (
+          <span className={`font-terminal text-[10px] border rounded-full px-2 py-0.5 ${tagClasses[skill.tag] ?? "text-muted-foreground border-cyber-border"}`}>
+            {skill.tag}
           </span>
-          {skill.tag && (
-            <span className={`font-terminal text-[10px] border rounded-full px-2 py-0.5 ${tagClasses[skill.tag] ?? "text-muted-foreground border-cyber-border"}`}>
-              {skill.tag}
-            </span>
-          )}
-        </div>
-        <span className={`font-terminal text-xs ${a.text}`}>{skill.level}%</span>
+        )}
       </div>
 
       {/* Track */}
