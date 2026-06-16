@@ -14,10 +14,10 @@ const roles = [
 ];
 
 const stats = [
-  { label: "THM Rank",    value: "Top 2%"         },
-  { label: "Projects",    value: "10+"              },
-  { label: "CTF Wins",    value: "Multiple College CTFs"       },
-  { label: "Stack",       value: "C++ · Py · TS"  },
+  { label: "THM Rank", value: "Top 2%" },
+  { label: "Projects", value: "10+" },
+  { label: "CTF Wins", value: "Multiple College CTFs" },
+  { label: "Stack", value: "C++ · Py · TS" },
 ];
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -37,9 +37,9 @@ function LinkedInIcon({ className }: { className?: string }) {
 }
 
 const socials = [
-  { label: "GitHub",     href: "https://github.com/Ashiii27",          icon: GitHubIcon   },
-  { label: "LinkedIn",   href: "https://linkedin.com/in/ashiii27",     icon: LinkedInIcon },
-  { label: "TryHackMe",  href: "https://tryhackme.com/p/ashiii27",     icon: ExternalLink },
+  { label: "GitHub", href: "https://github.com/Ashiii27", icon: GitHubIcon },
+  { label: "LinkedIn", href: "https://linkedin.com/in/ashiii27", icon: LinkedInIcon },
+  { label: "TryHackMe", href: "https://tryhackme.com/p/Ashiii27", icon: ExternalLink },
 ];
 
 // ── Terminal line helper ──────────────────────────────────────────
@@ -59,7 +59,7 @@ function TerminalLine({
       className={`flex items-start gap-2 ${output ? "pl-4" : ""}`}
     >
       {prompt && <span className="text-cyber-cyan select-none shrink-0">$</span>}
-      {output  && <span className="text-cyber-green/60 select-none shrink-0">→</span>}
+      {output && <span className="text-cyber-green/60 select-none shrink-0">→</span>}
       <span className={prompt ? "text-foreground" : "text-muted-foreground"}>
         {children}
       </span>
@@ -207,20 +207,20 @@ export default function Hero() {
 
               {/* Terminal body */}
               <div className="p-5 font-terminal text-sm space-y-2 min-h-72">
-                <TerminalLine delay={0.6}  prompt>whoami</TerminalLine>
-                <TerminalLine delay={0.9}  output>Ashish — security engineer</TerminalLine>
+                <TerminalLine delay={0.6} prompt>whoami</TerminalLine>
+                <TerminalLine delay={0.9} output>Ashish — security engineer</TerminalLine>
 
-                <TerminalLine delay={1.3}  prompt>cat skills.txt</TerminalLine>
-                <TerminalLine delay={1.6}  output>SOC Analysis · Blue Team · DFIR</TerminalLine>
+                <TerminalLine delay={1.3} prompt>cat skills.txt</TerminalLine>
+                <TerminalLine delay={1.6} output>SOC Analysis · Blue Team · DFIR</TerminalLine>
                 <TerminalLine delay={1.75} output>Network IDS · Malware Analysis</TerminalLine>
-                <TerminalLine delay={1.9}  output>Next.js · React · Node.js · C++</TerminalLine>
+                <TerminalLine delay={1.9} output>Next.js · React · Node.js · C++</TerminalLine>
 
-                <TerminalLine delay={2.2}  prompt>cat achievements.txt</TerminalLine>
-                <TerminalLine delay={2.5}  output>🏆 CTF 1st Place — MMMUT CES</TerminalLine>
+                <TerminalLine delay={2.2} prompt>cat achievements.txt</TerminalLine>
+                <TerminalLine delay={2.5} output>🏆 CTF 1st Place — MMMUT CES</TerminalLine>
                 <TerminalLine delay={2.65} output>🛡  TryHackMe Top 2% Globally</TerminalLine>
-                <TerminalLine delay={2.8}  output>🏀 Basketball Team Captain 2025</TerminalLine>
+                <TerminalLine delay={2.8} output>🏀 Basketball Team Captain 2025</TerminalLine>
 
-                <TerminalLine delay={3.1}  prompt>
+                <TerminalLine delay={3.1} prompt>
                   <span className="animate-pulse">_</span>
                 </TerminalLine>
               </div>
