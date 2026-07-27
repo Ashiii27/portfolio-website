@@ -1,0 +1,31 @@
+---
+title: "Building a Real-Time NIDS with C++ and libpcap"
+excerpt: "A deep dive into crafting a high-performance network intrusion detection system from scratch — packet capture, rule engines, and live alerting."
+date: "Jun 12, 2025"
+readTime: 12
+tags: ["Security", "Dev"]
+category: "Security Engineering"
+featured: false
+---
+
+## Overview
+
+This post covers the architecture of a real-time NIDS built from scratch in C++ using libpcap...
+
+## Packet Capture Layer
+
+```cpp
+#include <pcap.h>
+
+void packet_handler(u_char *user, const struct pcap_pkthdr *h, const u_char *bytes) {
+    // Parse ethernet, IP, TCP/UDP headers
+}
+```
+
+## Rule Engine
+
+The rule engine uses a YARA-inspired syntax to match patterns in packet payloads...
+
+## Alerting
+
+Alerts are written to a local SQLite database and displayed in a React dashboard via WebSocket.

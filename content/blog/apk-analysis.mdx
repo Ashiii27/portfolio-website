@@ -1,0 +1,39 @@
+---
+title: "Android APK Analysis: Uncovering Malicious Behavior"
+excerpt: "A practical walkthrough of static and dynamic APK analysis using Jadx, frida, and ADB — spotting suspicious permissions, obfuscated code, and C2 callbacks."
+date: "Jun 20, 2025"
+readTime: 10
+tags: ["Security", "Dev"]
+category: "Malware Analysis"
+featured: true
+---
+
+## Introduction
+
+Android APK analysis is a critical skill for mobile security engineers and malware analysts...
+
+## Static Analysis with Jadx
+
+First, decompile the APK using Jadx to inspect the Java source...
+
+```bash
+jadx -d output/ suspicious.apk
+```
+
+## Dynamic Analysis with Frida
+
+Hook into runtime method calls to observe behavior:
+
+```js
+Java.perform(() => {
+  const Activity = Java.use("android.app.Activity");
+  Activity.onCreate.overload("android.os.Bundle").implementation = function (bundle) {
+    console.log("[*] onCreate called");
+    this.onCreate(bundle);
+  };
+});
+```
+
+## Conclusion
+
+Combining static and dynamic analysis gives a comprehensive picture of APK behavior.
