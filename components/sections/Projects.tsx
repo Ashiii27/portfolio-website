@@ -108,24 +108,24 @@ const projects: Project[] = [
 
 // ── Filter tabs ───────────────────────────────────────────────────────
 const TABS: { label: Tag; icon: React.ElementType }[] = [
-  { label: "All",      icon: Star    },
-  { label: "Security", icon: Shield  },
-  { label: "Web",      icon: Code2   },
-  { label: "AI/ML",    icon: Brain   },
+  { label: "All", icon: Star },
+  { label: "Security", icon: Shield },
+  { label: "Web", icon: Code2 },
+  { label: "AI/ML", icon: Brain },
 ];
 
 // ── Accent helpers ────────────────────────────────────────────────────
 const accent = {
-  cyan:   { text: "text-cyber-cyan",   border: "border-cyber-cyan/40",   bg: "bg-cyber-cyan/10",   bar: "bg-cyber-cyan"   },
-  green:  { text: "text-cyber-green",  border: "border-cyber-green/40",  bg: "bg-cyber-green/10",  bar: "bg-cyber-green"  },
-  purple: { text: "text-purple-400",   border: "border-purple-400/40",   bg: "bg-purple-400/10",   bar: "bg-purple-400"   },
-  amber:  { text: "text-amber-400",    border: "border-amber-400/40",    bg: "bg-amber-400/10",    bar: "bg-amber-400"    },
+  cyan: { text: "text-cyber-cyan", border: "border-cyber-cyan/40", bg: "bg-cyber-cyan/10", bar: "bg-cyber-cyan" },
+  green: { text: "text-cyber-green", border: "border-cyber-green/40", bg: "bg-cyber-green/10", bar: "bg-cyber-green" },
+  purple: { text: "text-purple-400", border: "border-purple-400/40", bg: "bg-purple-400/10", bar: "bg-purple-400" },
+  amber: { text: "text-amber-400", border: "border-amber-400/40", bg: "bg-amber-400/10", bar: "bg-amber-400" },
 };
 
 const statusColor: Record<string, string> = {
-  "Completed":   "text-cyber-green border-cyber-green/40",
+  "Completed": "text-cyber-green border-cyber-green/40",
   "In Progress": "text-amber-400 border-amber-400/40",
-  "Archived":    "text-muted-foreground border-cyber-border",
+  "Archived": "text-muted-foreground border-cyber-border",
 };
 
 // ── Project Card ──────────────────────────────────────────────────────
@@ -140,9 +140,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.35, delay: index * 0.07 }}
-      className={`cyber-card rounded-xl p-6 flex flex-col gap-4 relative overflow-hidden group ${
-        project.featured ? `${a.border} border-2` : ""
-      }`}
+      className={`cyber-card rounded-xl p-6 flex flex-col gap-4 relative overflow-hidden group ${project.featured ? `${a.border} border-2` : ""
+        }`}
     >
       {/* Featured badge */}
       {project.featured && (
