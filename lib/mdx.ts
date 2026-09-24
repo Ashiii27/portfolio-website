@@ -48,10 +48,7 @@ function parseFile(dir: string, filename: string): Post {
 
 export function getAllBlogPosts(): PostMeta[] {
   return getFiles("blog")
-    .map((f) => {
-      const { content: _content, ...meta } = parseFile("blog", f);
-      return meta;
-    })
+    .map((file) => parseFile("blog", file))
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
@@ -70,10 +67,7 @@ export function getAllBlogSlugs(): string[] {
 
 export function getAllCTFPosts(): PostMeta[] {
   return getFiles("ctf")
-    .map((f) => {
-      const { content: _content, ...meta } = parseFile("ctf", f);
-      return meta;
-    })
+    .map((file) => parseFile("ctf", file))
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 

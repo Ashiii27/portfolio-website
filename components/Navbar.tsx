@@ -1,198 +1,164 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Menu, Shield } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "About",    href: "#about"    },
-  { label: "Skills",   href: "#skills"   },
-  { label: "Projects", href: "#projects" },
-  { label: "CTF",      href: "#ctf"      },
-  { label: "Blog",     href: "#blog"     },
-  { label: "Contact",  href: "#contact"  },
+  { label: "Work", href: "#work" },
+  { label: "Profile", href: "#about" },
+  { label: "Capabilities", href: "#capabilities" },
+  { label: "Notes", href: "#notes" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled]           = useState(false);
-  const [activeSection, setActiveSection] = useState("");
-  const [mobileOpen, setMobileOpen]       = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("work");
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 170, damping: 34, mass: 0.2 });
 
-  // Shrink navbar on scroll
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Highlight active section via IntersectionObserver
   useEffect(() => {
-    const ids = navLinks.map((l) => l.href.slice(1));
-    const observers: IntersectionObserver[] = [];
-
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { rootMargin: "-40% 0px -55% 0px" }
+    const observers = navLinks.map(({ href }) => {
+      const element = document.querySelector(href);
+      if (!element) return null;
+      const observer = new IntersectionObserver(
+        ([entry]) => entry.isIntersecting && setActive(href.slice(1)),
+        { rootMargin: "-38% 0px -54%" }
       );
-      obs.observe(el);
-      observers.push(obs);
+      observer.observe(element);
+      return observer;
     });
-
-    return () => observers.forEach((o) => o.disconnect());
+    return () => observers.forEach((observer) => observer?.disconnect());
   }, []);
 
-  const scrollTo = (href: string) => {
-    setMobileOpen(false);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  const goTo = (href: string) => {
+    setOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <>
+      <motion.div
+        className="fixed inset-x-0 top-0 z-[70] h-[3px] origin-left bg-[#f04d2f]"
+        style={{ scaleX }}
+      />
 
-        {/* ── Logo ── */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-2 group"
-        >
-          <div className="w-8 h-8 rounded border border-cyber-cyan/50 flex items-center justify-center
-                          group-hover:border-cyber-cyan group-hover:glow-cyan transition-all duration-200">
-            <Shield className="w-4 h-4 text-cyber-cyan" />
-          </div>
-          <span className="font-terminal text-sm font-semibold">
-            <span className="text-cyber-cyan">ashish</span>
-            <span className="text-foreground">@sec</span>
-            <span className="text-cyber-cyan animate-pulse">_</span>
-          </span>
-        </button>
-
-        {/* ── Desktop links ── */}
-        <ul className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.href.slice(1);
-            return (
-              <li key={link.href}>
-                <button
-                  onClick={() => scrollTo(link.href)}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-                    isActive
-                      ? "text-cyber-cyan"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="active-pill"
-                      className="absolute inset-0 rounded-md bg-cyber-cyan/10 border border-cyber-cyan/20"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative">{link.label}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-
-        {/* ── Resume button (desktop) ── */}
-        <div className="hidden md:block">
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-cyber-cyan/50 text-cyber-cyan hover:bg-cyber-cyan/10
-                       hover:border-cyber-cyan font-terminal text-xs"
-            asChild
+      <header
+        className={`fixed inset-x-0 top-0 z-[60] border-b transition-colors duration-300 ${
+          scrolled ? "border-[#191917]/20 bg-[#f0eee7]/95" : "border-transparent bg-transparent"
+        }`}
+      >
+        <nav className="site-shell flex h-[4.55rem] items-center justify-between" aria-label="Primary navigation">
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="group flex items-center gap-3 text-left"
+            aria-label="Back to top"
           >
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-              resume.pdf
-            </a>
-          </Button>
-        </div>
+            <span className="grid h-8 w-8 place-items-center bg-[#191917] text-[0.68rem] font-bold tracking-[-0.05em] text-[#f0eee7] transition-transform duration-300 group-hover:rotate-6">
+              AK
+            </span>
+            <span className="hidden font-mono text-[0.64rem] uppercase leading-[1.25] tracking-[0.08em] sm:block">
+              Ashish Kumar<br />Security Engineer
+            </span>
+          </button>
 
-        {/* ── Mobile hamburger ── */}
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden text-muted-foreground hover:text-cyber-cyan"
-            >
-              <Menu className="w-5 h-5" />
-            </Button>
-          </SheetTrigger>
+          <div className="hidden items-center gap-8 md:flex">
+            {navLinks.map((link, index) => {
+              const isActive = active === link.href.slice(1);
+              return (
+                <button
+                  key={link.href}
+                  type="button"
+                  onClick={() => goTo(link.href)}
+                  className="group relative py-2 font-mono text-[0.68rem] uppercase tracking-[0.08em]"
+                >
+                  <span className="mr-1 text-[#191917]/38">{String(index + 1).padStart(2, "0")}</span>
+                  {link.label}
+                  <span
+                    className={`absolute inset-x-0 bottom-0 h-px origin-left bg-[#f04d2f] transition-transform duration-300 ${
+                      isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
 
-          <SheetContent side="right" className="w-72 bg-card border-border p-0">
-            <div className="flex flex-col h-full p-6">
+          <button
+            type="button"
+            onClick={() => goTo("#contact")}
+            className="group hidden items-center gap-2 border-b border-[#191917] pb-1 font-mono text-[0.68rem] uppercase tracking-[0.08em] md:flex"
+          >
+            Start a conversation
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </button>
 
-              {/* Mobile logo */}
-              <div className="flex items-center gap-2 mb-8">
-                <Shield className="w-4 h-4 text-cyber-cyan" />
-                <span className="font-terminal text-sm text-cyber-cyan">
-                  ashish@sec_
-                </span>
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            className="grid h-10 w-10 place-items-center border border-[#191917] md:hidden"
+            aria-label={open ? "Close navigation" : "Open navigation"}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </nav>
+      </header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-50 flex bg-[#f04d2f] pt-[4.55rem] md:hidden"
+          >
+            <div className="site-shell flex flex-1 flex-col justify-between border-t border-[#191917]/30 py-8">
+              <div>
+                {navLinks.map((link, index) => (
+                  <motion.button
+                    key={link.href}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.12 + index * 0.06 }}
+                    type="button"
+                    onClick={() => goTo(link.href)}
+                    className="flex w-full items-baseline gap-4 border-b border-[#191917]/30 py-4 text-left"
+                  >
+                    <span className="font-mono text-xs">0{index + 1}</span>
+                    <span className="text-[clamp(2.7rem,13vw,5rem)] font-bold uppercase leading-none tracking-[-0.06em]">
+                      {link.label}
+                    </span>
+                  </motion.button>
+                ))}
               </div>
 
-              {/* Mobile links */}
-              <ul className="flex flex-col gap-1 flex-1">
-                {navLinks.map((link, i) => {
-                  const isActive = activeSection === link.href.slice(1);
-                  return (
-                    <motion.li
-                      key={link.href}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.06 }}
-                    >
-                      <button
-                        onClick={() => scrollTo(link.href)}
-                        className={`w-full text-left px-4 py-3 rounded-md text-sm font-medium
-                                    transition-colors duration-200 ${
-                          isActive
-                            ? "text-cyber-cyan bg-cyber-cyan/10 border border-cyber-cyan/20"
-                            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                        }`}
-                      >
-                        <span className="text-cyber-cyan/40 font-terminal mr-2 text-xs">
-                          {String(i + 1).padStart(2, "0")}.
-                        </span>
-                        {link.label}
-                      </button>
-                    </motion.li>
-                  );
-                })}
-              </ul>
-
-              {/* Mobile resume */}
-              <Button
-                variant="outline"
-                className="w-full mt-4 border-cyber-cyan/50 text-cyber-cyan
-                           hover:bg-cyber-cyan/10 font-terminal text-xs"
-                asChild
+              <button
+                type="button"
+                onClick={() => goTo("#contact")}
+                className="flex items-center justify-between border-b border-[#191917] pb-3 font-mono text-xs uppercase tracking-[0.08em]"
               >
-                <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-                  resume.pdf
-                </a>
-              </Button>
-
+                Start a conversation <ArrowUpRight className="h-4 w-4" />
+              </button>
             </div>
-          </SheetContent>
-        </Sheet>
-
-      </nav>
-    </motion.header>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

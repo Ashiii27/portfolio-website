@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, ChevronDown, Star, GitBranch } from "lucide-react";
+import { ExternalLink, ChevronDown, Star } from "lucide-react";
 
 function GitHubIcon({ className }: { className?: string }) {
   return (

@@ -1,260 +1,138 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Code2, Trophy, GraduationCap, Terminal } from "lucide-react";
 
-// ── Section header helper ─────────────────────────────────────────
-function SectionHeading({ label, title }: { label: string; title: string }) {
-  return (
-    <div className="space-y-2 mb-12">
-      <span className="font-terminal text-xs text-cyber-cyan tracking-widest uppercase">
-        {label}
-      </span>
-      <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
-        {title}
-        <span className="text-cyber-cyan text-glow-cyan">.</span>
-      </h2>
-    </div>
-  );
-}
+const proof = [
+  { value: "Top 2%", label: "TryHackMe global ranking" },
+  { value: "200+", label: "Hands-on security rooms" },
+  { value: "01", label: "CES CTF first place" },
+  { value: "3", label: "Core languages — C++, Python, TS" },
+];
 
-// ── Data ──────────────────────────────────────────────────────────
 const timeline = [
   {
-    year: "2022 – Present",
-    icon: GraduationCap,
-    title: "B.Tech Computer Science & Engineering",
-    org: "MMMUT Gorakhpur",
-    desc: "Pursuing my degree with a focus on cybersecurity, networks, and systems programming. Active in technical clubs and college CTF teams.",
-    accent: "cyan",
+    marker: "Now",
+    title: "Building detection & forensic systems",
+    body: "SentinelX, MCPGuard, WinLogin Forensics, and hands-on blue-team research.",
   },
   {
-    year: "2023 – Present",
-    icon: Shield,
-    title: "SOC & Blue Team Practice",
-    org: "TryHackMe · HackTheBox",
-    desc: "Achieved Top 2% ranking on TryHackMe globally. Completed 200+ rooms covering SIEM, threat hunting, malware analysis, and network forensics.",
-    accent: "green",
+    marker: "2024",
+    title: "First place — CES Capture The Flag",
+    body: "Team competition across web exploitation, reverse engineering, and cryptography.",
   },
   {
-    year: "2024",
-    icon: Trophy,
-    title: "CTF — 1st Place",
-    org: "MMMUT CES Capture The Flag",
-    desc: "Led team to first place in the college-level CTF competition. Solved challenges across web exploitation, reverse engineering, and cryptography.",
-    accent: "cyan",
+    marker: "2023",
+    title: "Blue-team practice became the focus",
+    body: "SOC analysis, threat hunting, malware analysis, network forensics, and incident response labs.",
   },
   {
-    year: "2024 – Present",
-    icon: Code2,
-    title: "Full-Stack & Security Tools",
-    org: "Personal Projects",
-    desc: "Building production-grade tools — a Network IDS in C++, a GenAI-powered malware analysis pipeline, and various open-source security utilities.",
-    accent: "green",
+    marker: "B.Tech",
+    title: "Computer Science & Engineering",
+    body: "Madan Mohan Malaviya University of Technology, Gorakhpur.",
   },
 ];
 
-const interests = [
-  "Threat Hunting",
-  "Malware Analysis",
-  "Network Forensics",
-  "SIEM / SOAR",
-  "Reverse Engineering",
-  "CTF Competitions",
-  "Secure Systems Design",
-  "Basketball 🏀",
-  "Open Source",
-];
-
-const quickFacts = [
-  { icon: Terminal, label: "Primary OS", value: "Kali Linux / Windows" },
-  { icon: Shield,   label: "Focus Area", value: "Blue Team / DFIR"     },
-  { icon: Code2,    label: "Languages",  value: "C++, Python, TypeScript" },
-  { icon: Trophy,   label: "THM Rank",   value: "Top 2% Globally"     },
-];
-
-// ── Component ─────────────────────────────────────────────────────
 export default function About() {
   return (
-    <section id="about" className="relative py-24 overflow-hidden">
-      {/* Subtle background grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(0.82_0.15_205/0.03)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.82_0.15_205/0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <SectionHeading label="// about me" title="Who I Am" />
-        </motion.div>
-
-        {/* ── Top grid: bio + quick facts ── */}
-        <div className="grid lg:grid-cols-5 gap-8 mb-16">
-
-          {/* Bio card — 3 cols */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="lg:col-span-3 cyber-card rounded-xl p-8 space-y-5"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <span className="w-2 h-2 rounded-full bg-cyber-green animate-pulse" />
-              <span className="font-terminal text-xs text-cyber-green tracking-widest">
-                PROFILE LOADED
-              </span>
-            </div>
-
-            <p className="text-muted-foreground leading-relaxed text-base">
-              I&apos;m <span className="text-foreground font-semibold">Ashish Kumar</span>, a
-              Computer Science student at <span className="text-cyber-cyan">MMMUT Gorakhpur</span>{" "}
-              with a deep obsession for cybersecurity and systems engineering.
-            </p>
-            <p className="text-muted-foreground leading-relaxed text-base">
-              My work sits at the intersection of{" "}
-              <span className="text-foreground font-semibold">Blue Team defense</span> and{" "}
-              <span className="text-foreground font-semibold">full-stack development</span>. I build
-              things that matter — from network intrusion detection systems written in raw C++ to
-              AI-powered malware analysis pipelines that help security teams respond faster.
-            </p>
-            <p className="text-muted-foreground leading-relaxed text-base">
-              When I&apos;m not hunting threats or writing code, I&apos;m on the basketball court or
-              cracking CTF challenges. I believe the discipline of competitive sport and the
-              precision of security engineering aren&apos;t that different.
-            </p>
-
-            {/* Interests */}
-            <div className="pt-2">
-              <p className="font-terminal text-xs text-muted-foreground mb-3 tracking-widest">
-                INTERESTS &amp; AREAS
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {interests.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 rounded-full text-xs font-terminal border border-cyber-border bg-cyber-surface text-muted-foreground hover:border-cyber-cyan/50 hover:text-cyber-cyan transition-colors duration-200"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Quick facts — 2 cols */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:col-span-2 flex flex-col gap-4"
-          >
-            {quickFacts.map(({ icon: Icon, label, value }, i) => (
-              <motion.div
-                key={label}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.25 + i * 0.08 }}
-                className="cyber-card rounded-xl p-5 flex items-start gap-4"
-              >
-                <div className="p-2 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/20 shrink-0">
-                  <Icon className="w-4 h-4 text-cyber-cyan" />
-                </div>
-                <div>
-                  <p className="font-terminal text-xs text-muted-foreground tracking-widest mb-1">
-                    {label.toUpperCase()}
-                  </p>
-                  <p className="text-foreground text-sm font-medium">{value}</p>
-                </div>
-              </motion.div>
-            ))}
-
-            {/* Currently learning card */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
+    <section id="about" className="bg-[#f0eee7] text-[#191917]">
+      <div className="site-shell border-x border-[#191917]/20">
+        <div className="grid border-b border-[#191917]/20 md:grid-cols-12">
+          <div className="border-b border-[#191917]/20 p-5 md:col-span-3 md:border-b-0 md:border-r md:p-8">
+            <span className="eyebrow text-[#f04d2f]">Profile</span>
+          </div>
+          <div className="p-5 md:col-span-9 md:p-10 lg:p-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 45 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.6 }}
-              className="cyber-card rounded-xl p-5 border-cyber-green/20 bg-cyber-green/5"
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-6xl text-[clamp(2.8rem,7.4vw,7.8rem)] font-semibold leading-[0.94] tracking-[-0.07em]"
             >
-              <p className="font-terminal text-xs text-cyber-green tracking-widest mb-2">
-                CURRENTLY LEARNING
-              </p>
-              <p className="text-foreground text-sm font-medium">
-                Rust · Cloud Security (AWS) · Kubernetes Hardening
-              </p>
-            </motion.div>
-          </motion.div>
+              Curious enough to break it. Disciplined enough to <span className="display-serif text-[#3155e7]">defend it.</span>
+            </motion.h2>
+          </div>
         </div>
 
-        {/* ── Timeline ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-4"
-        >
-          <p className="font-terminal text-xs text-cyber-cyan tracking-widest uppercase mb-8">
-            // journey
-          </p>
-        </motion.div>
+        <div className="grid md:grid-cols-12">
+          <div className="border-b border-[#191917]/20 p-5 md:col-span-3 md:border-b-0 md:border-r md:p-8">
+            <div className="sticky top-28">
+              <div className="font-mono text-[0.62rem] uppercase tracking-[0.1em] text-[#585750]">Ashish Kumar</div>
+              <div className="mt-3 max-w-[14rem] text-sm leading-relaxed">
+                Security-focused computer science student, builder, and competitive problem solver.
+              </div>
+              <div className="mt-8 flex items-center gap-3 font-mono text-[0.58rem] uppercase tracking-[0.08em]">
+                <span className="h-2.5 w-2.5 bg-[#f04d2f]" />
+                Gorakhpur, India
+              </div>
+            </div>
+          </div>
 
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-cyber-cyan/40 via-cyber-border to-transparent hidden md:block" />
+          <div className="md:col-span-9">
+            <div className="grid border-b border-[#191917]/20 md:grid-cols-2">
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="border-b border-[#191917]/20 p-5 md:border-b-0 md:border-r md:p-10 lg:p-14"
+              >
+                <p className="text-[clamp(1.35rem,2.4vw,2.25rem)] font-medium leading-[1.24] tracking-[-0.035em]">
+                  I am most interested in the exact moment noisy technical data becomes a clear, defensible decision.
+                </p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.08 }}
+                className="p-5 text-base leading-[1.65] text-[#585750] md:p-10 lg:p-14"
+              >
+                <p>
+                  That is why my work crosses boundaries: low-level packet processing in C++, analysis workflows in Python,
+                  and full-stack interfaces that make the result useful to a human operator.
+                </p>
+                <p className="mt-5">
+                  Away from the terminal, I captain a basketball team. Both disciplines reward the same things — awareness,
+                  preparation, and knowing when to act.
+                </p>
+              </motion.div>
+            </div>
 
-          <div className="space-y-6">
-            {timeline.map((item, i) => {
-              const Icon = item.icon;
-              const isCyan = item.accent === "cyan";
-              return (
+            <div className="grid grid-cols-2 border-b border-[#191917]/20 lg:grid-cols-4">
+              {proof.map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.06 }}
+                  className="min-h-40 border-b border-r border-[#191917]/20 p-5 last:border-r-0 even:border-r-0 lg:border-b-0 lg:even:border-r lg:last:border-r-0"
+                >
+                  <div className="text-[clamp(2.2rem,4vw,4rem)] font-semibold leading-none tracking-[-0.06em]">{item.value}</div>
+                  <div className="mt-4 max-w-[10rem] font-mono text-[0.6rem] uppercase leading-[1.5] tracking-[0.07em] text-[#585750]">
+                    {item.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="p-5 md:p-10 lg:p-14">
+              <div className="mb-8 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-[#585750]">Trajectory / Selected moments</div>
+              {timeline.map((item, index) => (
                 <motion.div
                   key={item.title}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="relative md:pl-16"
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  className="grid gap-3 border-t border-[#191917] py-6 md:grid-cols-[7rem_1fr_1fr] md:gap-6"
                 >
-                  {/* Timeline dot */}
-                  <div
-                    className={`absolute left-0 top-5 w-10 h-10 rounded-full border flex items-center justify-center hidden md:flex shrink-0
-                      ${isCyan
-                        ? "border-cyber-cyan/40 bg-cyber-cyan/10"
-                        : "border-cyber-green/40 bg-cyber-green/10"
-                      }`}
-                  >
-                    <Icon
-                      className={`w-4 h-4 ${isCyan ? "text-cyber-cyan" : "text-cyber-green"}`}
-                    />
-                  </div>
-
-                  <div className="cyber-card rounded-xl p-6 group">
-                    <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
-                      <div>
-                        <h3 className="text-foreground font-semibold text-base group-hover:text-cyber-cyan transition-colors duration-200">
-                          {item.title}
-                        </h3>
-                        <p
-                          className={`font-terminal text-xs mt-0.5 ${isCyan ? "text-cyber-cyan/70" : "text-cyber-green/70"}`}
-                        >
-                          {item.org}
-                        </p>
-                      </div>
-                      <span className="font-terminal text-xs text-muted-foreground border border-cyber-border rounded-full px-3 py-1 shrink-0">
-                        {item.year}
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
-                  </div>
+                  <span className="font-mono text-[0.64rem] uppercase tracking-[0.08em] text-[#f04d2f]">{item.marker}</span>
+                  <h3 className="text-lg font-semibold tracking-[-0.025em]">{item.title}</h3>
+                  <p className="text-sm leading-relaxed text-[#585750]">{item.body}</p>
                 </motion.div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
       </div>

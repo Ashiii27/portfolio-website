@@ -2,97 +2,76 @@ import { getCTFPost, getAllCTFSlugs } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Clock, Tag, Calendar, Flag } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
+import Footer from "@/components/Footer";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllCTFSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return getAllCTFSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getCTFPost(slug);
   if (!post) return { title: "Writeup Not Found" };
-  return {
-    title: post.title,
-    description: post.excerpt,
-  };
+  return { title: post.title, description: post.excerpt };
 }
 
 export default async function CTFPostPage({ params }: Props) {
   const { slug } = await params;
   const post = getCTFPost(slug);
-
   if (!post) return notFound();
 
   return (
-    <main className="min-h-screen py-24 relative">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_70%_30%,oklch(0.75_0.18_300/0.05),transparent)]" />
+    <main className="min-h-screen bg-[#e4b73b] pt-[4.55rem] text-[#191917]">
+      <article>
+        <div className="site-shell border-x border-[#191917]/25">
+          <div className="border-b border-[#191917]/25 p-5 md:p-8">
+            <Link href="/ctf" className="link-arrow">
+              <ArrowLeft className="h-3.5 w-3.5" /> CTF archive
+            </Link>
+          </div>
 
-      <article className="relative z-10 max-w-3xl mx-auto px-6">
-        {/* Back link */}
-        <Link
-          href="/ctf"
-          className="inline-flex items-center gap-2 font-terminal text-xs text-muted-foreground hover:text-cyber-cyan transition-colors mb-10"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Back to CTF Writeups
-        </Link>
+          <header className="grid border-b border-[#191917]/25 md:grid-cols-12">
+            <div className="border-b border-[#191917]/25 p-5 md:col-span-3 md:border-b-0 md:border-r md:p-8">
+              <span className="eyebrow text-[#3155e7]">{post.category}</span>
+              <div className="mt-8 space-y-2 font-mono text-[0.6rem] uppercase leading-[1.6] tracking-[0.07em] text-[#191917]/60">
+                <div>{post.date}</div>
+                <div>{post.readTime} minute read</div>
+                <div>{post.tags.join(" / ")}</div>
+              </div>
+            </div>
+            <div className="p-5 md:col-span-9 md:p-10 lg:p-16">
+              <h1 className="max-w-6xl text-[clamp(3rem,7vw,7.5rem)] font-semibold leading-[0.92] tracking-[-0.07em]">
+                {post.title}
+              </h1>
+              <p className="mt-8 max-w-3xl text-lg leading-relaxed text-[#191917]/65">{post.excerpt}</p>
+            </div>
+          </header>
 
-        {/* Meta */}
-        <div className="flex items-center gap-2 mb-3">
-          <Flag className="w-3.5 h-3.5 text-cyber-cyan" />
-          <span className="font-terminal text-[10px] tracking-widest text-cyber-cyan">
-            {post.category.toUpperCase()}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 leading-tight">
-          {post.title}
-        </h1>
-
-        {/* Details row */}
-        <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-cyber-border">
-          <span className="flex items-center gap-1.5 font-terminal text-xs text-muted-foreground">
-            <Calendar className="w-3.5 h-3.5" />
-            {post.date}
-          </span>
-          <span className="flex items-center gap-1.5 font-terminal text-xs text-muted-foreground">
-            <Clock className="w-3.5 h-3.5" />
-            {post.readTime} min read
-          </span>
-          <div className="flex flex-wrap gap-1.5">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="flex items-center gap-1 font-terminal text-[10px] px-2 py-0.5 rounded-full border border-cyber-border bg-cyber-surface text-muted-foreground"
-              >
-                <Tag className="w-2.5 h-2.5" />
-                {tag}
-              </span>
-            ))}
+          <div className="grid md:grid-cols-12">
+            <aside className="hidden border-r border-[#191917]/25 p-8 md:col-span-3 md:block">
+              <div className="sticky top-28 font-mono text-[0.58rem] uppercase leading-[1.8] tracking-[0.08em] text-[#191917]/60">
+                Controlled environment<br />Educational writeup<br />Reproduce responsibly
+              </div>
+            </aside>
+            <div className="p-5 md:col-span-9 md:p-10 lg:p-16">
+              {post.content.trim() ? (
+                <div className="article-prose">
+                  <MDXRemote source={post.content} />
+                </div>
+              ) : (
+                <p className="border-t border-[#191917] py-10 font-mono text-xs uppercase tracking-[0.08em]">Content coming soon.</p>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* MDX content */}
-        {post.content.trim() ? (
-          <div className="prose prose-invert prose-sm max-w-none prose-headings:font-bold prose-headings:text-foreground prose-a:text-cyber-cyan prose-code:text-cyber-cyan prose-code:bg-cyber-surface prose-pre:bg-cyber-surface prose-pre:border prose-pre:border-cyber-border">
-            <MDXRemote source={post.content} />
-          </div>
-        ) : (
-          <div className="cyber-card rounded-xl p-12 text-center">
-            <p className="text-muted-foreground font-terminal text-sm">
-              Content coming soon.
-            </p>
-          </div>
-        )}
       </article>
+      <Footer />
     </main>
   );
 }
