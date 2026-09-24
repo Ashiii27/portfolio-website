@@ -262,7 +262,7 @@ export default function CTFWriteups() {
           className="mb-12"
         >
           <span className="font-terminal text-xs text-cyber-cyan tracking-widest uppercase">
-            // ctf writeups
+            {"// ctf writeups"}
           </span>
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-2">
             Capture The Flag<span className="text-cyber-cyan text-glow-cyan">.</span>

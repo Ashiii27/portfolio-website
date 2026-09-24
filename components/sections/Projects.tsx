@@ -1,340 +1,276 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Shield, Code2, Brain, Star } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
-// Inline GitHub SVG — lucide-react dropped brand icons in recent versions
 function GitHubIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.56 9.56 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
     </svg>
   );
 }
 
-// ── Types ───────────────────────────────────────────────────────────
-type Tag = "All" | "Security" | "Web" | "AI/ML";
-
-interface Project {
-  title: string;
-  description: string;
-  longDesc: string;
-  tags: Tag[];
-  tech: string[];
-  github?: string;
-  demo?: string;
-  featured?: boolean;
-  status: "Completed" | "In Progress" | "Archived";
-  accent: "cyan" | "green" | "purple" | "amber";
-}
-
-// ── Project Data ─────────────────────────────────────────────────────
-const projects: Project[] = [
+const projects = [
   {
-    title: "Network Intrusion Detection System",
-    description: "Real-time packet inspection engine with rule-based anomaly detection.",
-    longDesc:
-      "A high-performance NIDS written in C++ using libpcap. Detects port scans, SYN floods, ARP spoofing, and custom YARA-like signature rules. Logs alerts to a local SIEM dashboard built in React.",
-    tags: ["Security"],
-    tech: ["C++", "libpcap", "React", "SQLite", "YARA"],
-    github: "https://github.com/Ashiii27",
-    featured: true,
-    status: "In Progress",
-    accent: "cyan",
+    number: "01",
+    name: "SentinelX",
+    label: "Network detection system",
+    description:
+      "A host-deployable NIDS that captures raw packets, runs real-time detections in a C++ engine, and streams MITRE ATT&CK-mapped alerts into a live SOC dashboard.",
+    details: ["C++17 + libpcap", "YARA detection", "Node + React", "MITRE ATT&CK"],
+    callouts: ["Packet capture", "Rule engine", "Live alerting"],
+    href: "https://github.com/Ashiii27/sentinelX",
+    kind: "sentinel" as const,
+    background: "#191917",
+    ink: "#f0eee7",
+    accent: "#f04d2f",
   },
   {
-    title: "GenAI Malware Analysis Pipeline",
-    description: "LLM-powered static & dynamic analysis tool for suspicious executables.",
-    longDesc:
-      "Combines Ghidra scripting, Python sandbox automation, and the Gemini API to auto-generate human-readable threat reports from malware samples. Reduces manual triage time by ~60%.",
-    tags: ["Security", "AI/ML"],
-    tech: ["Python", "Ghidra", "Gemini API", "Docker", "FastAPI"],
-    github: "https://github.com/Ashiii27",
-    featured: true,
-    status: "In Progress",
-    accent: "green",
+    number: "02",
+    name: "MCPGuard",
+    label: "AI security proxy",
+    description:
+      "A zero-dependency, fail-closed security proxy for MCP. It inspects tool calls before execution to block leaked secrets, prompt injection, and unsafe file operations.",
+    details: ["Python", "JSON-RPC 2.0", "Zero dependencies", "Audit logging"],
+    callouts: ["Inspect", "Decide", "Forward"],
+    href: "https://github.com/Ashiii27/mcpguard",
+    kind: "mcp" as const,
+    background: "#3155e7",
+    ink: "#f7f3e8",
+    accent: "#d8f45a",
   },
   {
-    title: "Portfolio Website",
-    description: "This very site — a dark-themed, animated portfolio built with Next.js.",
-    longDesc:
-      "Designed and built from scratch using Next.js 15, TypeScript, Framer Motion, and a fully custom dark cyber design system. Features typewriter effects, scroll-driven animations, and a terminal-style UI.",
-    tags: ["Web"],
-    tech: ["Next.js", "TypeScript", "Framer Motion", "Tailwind CSS"],
-    github: "https://github.com/Ashiii27/Portfolio-Website",
-    demo: "#",
-    featured: false,
-    status: "In Progress",
-    accent: "purple",
+    number: "03",
+    name: "WinLogin Forensics",
+    label: "DFIR workbench",
+    description:
+      "A Windows login artifact extraction and analysis framework with correlation, detection, live monitoring, and chain-of-custody aware forensic reporting.",
+    details: ["Python 3.10+", "EVTX + Registry", "MITRE mapping", "HTML / PDF reports"],
+    callouts: ["Acquire", "Correlate", "Report"],
+    href: "https://github.com/Ashiii27/WinLogin-Forensics",
+    kind: "forensics" as const,
+    background: "#e4b73b",
+    ink: "#191917",
+    accent: "#3155e7",
   },
   {
-    title: "CTF Toolkit",
-    description: "Curated collection of scripts and helpers for Capture The Flag competitions.",
-    longDesc:
-      "A growing library of Python utilities covering cryptography (RSA/AES/XOR), steganography extraction, binary exploitation helpers (ret2libc, format strings), and automated recon scripts.",
-    tags: ["Security"],
-    tech: ["Python", "Bash", "pwntools", "Crypto"],
-    github: "https://github.com/Ashiii27",
-    featured: false,
-    status: "In Progress",
-    accent: "amber",
-  },
-  {
-    title: "SIEM Log Analyzer",
-    description: "Parses and correlates Splunk/ELK logs to surface high-fidelity alerts.",
-    longDesc:
-      "A Python CLI tool that ingests structured log exports from Splunk or the ELK stack, applies correlation rules (MITRE ATT&CK mapping), and produces actionable incident summaries in Markdown.",
-    tags: ["Security", "AI/ML"],
-    tech: ["Python", "Elasticsearch", "MITRE ATT&CK", "Click"],
-    github: "https://github.com/Ashiii27",
-    featured: false,
-    status: "Completed",
-    accent: "cyan",
-  },
-  {
-    title: "Threat Intel Dashboard",
-    description: "Aggregates feeds from AlienVault OTX, VirusTotal & abuse.ch into one UI.",
-    longDesc:
-      "A React + FastAPI application that pulls from multiple threat intelligence APIs and presents IOCs (IPs, hashes, domains) in a searchable, filterable dashboard with severity scoring.",
-    tags: ["Security", "Web"],
-    tech: ["React", "FastAPI", "Python", "VirusTotal API", "OTX"],
-    github: "https://github.com/Ashiii27",
-    featured: false,
-    status: "Completed",
-    accent: "green",
+    number: "04",
+    name: "Honeypot Network",
+    label: "Threat intelligence lab",
+    description:
+      "A multi-protocol honeypot network that emulates six services, captures adversary behavior, maps activity to ATT&CK, and turns observations into searchable IOCs.",
+    details: ["Go", "6 emulated services", "IOC extraction", "Realtime dashboard"],
+    callouts: ["Observe", "Enrich", "Visualize"],
+    href: "https://github.com/Ashiii27/honeypot-network",
+    kind: "honeypot" as const,
+    background: "#d8f45a",
+    ink: "#191917",
+    accent: "#f04d2f",
   },
 ];
 
-// ── Filter tabs ───────────────────────────────────────────────────────
-const TABS: { label: Tag; icon: React.ElementType }[] = [
-  { label: "All", icon: Star },
-  { label: "Security", icon: Shield },
-  { label: "Web", icon: Code2 },
-  { label: "AI/ML", icon: Brain },
-];
+type Project = (typeof projects)[number];
 
-// ── Accent helpers ────────────────────────────────────────────────────
-const accent = {
-  cyan: { text: "text-cyber-cyan", border: "border-cyber-cyan/40", bg: "bg-cyber-cyan/10", bar: "bg-cyber-cyan" },
-  green: { text: "text-cyber-green", border: "border-cyber-green/40", bg: "bg-cyber-green/10", bar: "bg-cyber-green" },
-  purple: { text: "text-purple-400", border: "border-purple-400/40", bg: "bg-purple-400/10", bar: "bg-purple-400" },
-  amber: { text: "text-amber-400", border: "border-amber-400/40", bg: "bg-amber-400/10", bar: "bg-amber-400" },
-};
-
-const statusColor: Record<string, string> = {
-  "Completed": "text-cyber-green border-cyber-green/40",
-  "In Progress": "text-amber-400 border-amber-400/40",
-  "Archived": "text-muted-foreground border-cyber-border",
-};
-
-// ── Project Card ──────────────────────────────────────────────────────
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const [expanded, setExpanded] = useState(false);
-  const a = accent[project.accent];
-
+function SentinelVisual() {
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.35, delay: index * 0.07 }}
-      className={`cyber-card rounded-xl p-6 flex flex-col gap-4 relative overflow-hidden group ${project.featured ? `${a.border} border-2` : ""
-        }`}
-    >
-      {/* Featured badge */}
-      {project.featured && (
-        <span
-          className={`absolute top-3 right-3 font-terminal text-[10px] px-2 py-0.5 rounded-full border ${a.bg} ${a.border} ${a.text}`}
-        >
-          ★ Featured
-        </span>
-      )}
-
-      {/* Top row: icon + status */}
-      <div className="flex items-start justify-between gap-3">
-        <div className={`p-2.5 rounded-lg border ${a.bg} ${a.border} shrink-0`}>
-          <Shield className={`w-4 h-4 ${a.text}`} />
+    <div className="project-visual" aria-hidden="true">
+      <div className="visual-grid" />
+      {[25, 42, 59, 76].map((top) => (
+        <div className="packet-lane" style={{ top: `${top}%` }} key={top}>
+          <span className="packet-dot" />
         </div>
-        <span
-          className={`font-terminal text-[10px] border rounded-full px-2 py-0.5 ${statusColor[project.status]}`}
-        >
-          {project.status}
-        </span>
+      ))}
+      <div className="absolute left-[8%] top-[8%] font-mono text-[0.6rem] uppercase tracking-[0.1em]">
+        interface / eth0<br />capture active
       </div>
-
-      {/* Title + short description */}
-      <div>
-        <h3 className={`text-base font-semibold text-foreground group-hover:${a.text} transition-colors duration-200 mb-1`}>
-          {project.title}
-        </h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {project.description}
-        </p>
+      <div className="alert-panel">
+        <div className="alert-row"><span>12:08:22</span><span>TCP SYN scan</span><span>T1046</span></div>
+        <div className="alert-row"><span>12:08:24</span><span>YARA match</span><span>T1204</span></div>
+        <div className="alert-row"><span>12:08:27</span><span>HTTP anomaly</span><span>T1190</span></div>
       </div>
-
-      {/* Expanded long description */}
-      <AnimatePresence>
-        {expanded && (
-          <motion.p
-            key="long"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-sm text-muted-foreground leading-relaxed overflow-hidden"
-          >
-            {project.longDesc}
-          </motion.p>
-        )}
-      </AnimatePresence>
-
-      {/* Tech tags */}
-      <div className="flex flex-wrap gap-1.5 mt-auto">
-        {project.tech.map((t) => (
-          <span
-            key={t}
-            className="font-terminal text-[10px] px-2 py-0.5 rounded border border-cyber-border bg-cyber-surface text-muted-foreground"
-          >
-            {t}
-          </span>
-        ))}
-      </div>
-
-      {/* Footer: toggle + links */}
-      <div className="flex items-center justify-between pt-2 border-t border-cyber-border">
-        <button
-          onClick={() => setExpanded((v) => !v)}
-          className={`font-terminal text-xs ${a.text} hover:underline transition-colors`}
-        >
-          {expanded ? "Show less ↑" : "Read more ↓"}
-        </button>
-
-        <div className="flex items-center gap-3">
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="GitHub"
-            >
-              <GitHubIcon className="w-4 h-4" />
-            </a>
-          )}
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${a.text} hover:opacity-80 transition-opacity`}
-              aria-label="Live demo"
-            >
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
-        </div>
-      </div>
-    </motion.div>
+    </div>
   );
 }
 
-// ── Section ───────────────────────────────────────────────────────────
-export default function Projects() {
-  const [activeTag, setActiveTag] = useState<Tag>("All");
-
-  const filtered = activeTag === "All"
-    ? projects
-    : projects.filter((p) => p.tags.includes(activeTag));
-
+function MCPVisual() {
   return (
-    <section id="projects" className="relative py-24 overflow-hidden">
-      {/* Background accent glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_30%_70%,oklch(0.82_0.15_205/0.06),transparent)]" />
+    <div className="project-visual" aria-hidden="true">
+      <div className="visual-grid" />
+      <div className="pipeline-payload" />
+      <div className="pipeline">
+        <div className="pipeline-node">MCP<br />client</div>
+        <div className="pipeline-node">Policy<br />engine</div>
+        <div className="pipeline-node">Tool<br />server</div>
+      </div>
+      <div className="block-stamp">BLOCKED</div>
+      <div className="absolute bottom-[5%] left-[5%] font-mono text-[0.55rem] uppercase tracking-[0.08em]">
+        deterministic inspection / fail closed
+      </div>
+    </div>
+  );
+}
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+function ForensicsVisual() {
+  const rows = [
+    ["4624", "Successful logon", "10.0.0.34"],
+    ["4625", "Failed logon", "185.41.8.22"],
+    ["4672", "Special privileges", "10.0.0.34"],
+    ["4769", "Kerberos service", "10.0.0.12"],
+  ];
+  return (
+    <div className="project-visual" aria-hidden="true">
+      <div className="visual-grid" />
+      <div className="forensic-list">
+        <div className="forensic-head"><span>Event</span><span>Artifact</span><span>Source</span><span>Flag</span></div>
+        {rows.map((row) => (
+          <div className="forensic-row" key={row[0]}>
+            {row.map((cell) => <span key={cell}>{cell}</span>)}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-        {/* ── Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <span className="font-terminal text-xs text-cyber-cyan tracking-widest uppercase">
-            // projects
-          </span>
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-2">
-            What I&apos;ve Built<span className="text-cyber-cyan text-glow-cyan">.</span>
-          </h2>
-          <p className="text-muted-foreground text-sm mt-3 max-w-lg">
-            A collection of security tools, web applications, and AI-powered pipelines I&apos;ve shipped or am actively building.
-          </p>
-        </motion.div>
+function HoneypotVisual() {
+  const active = new Set([4, 10, 17, 23, 31]);
+  return (
+    <div className="project-visual" aria-hidden="true">
+      <div className="visual-grid" />
+      <div className="honeypot-map">
+        {Array.from({ length: 35 }).map((_, index) => (
+          <span className={`honey-node ${active.has(index) ? "active" : ""}`} key={index} />
+        ))}
+      </div>
+      <div className="absolute bottom-[3%] right-[4%] bg-[var(--project-bg)] px-2 font-mono text-[0.55rem] uppercase tracking-[0.08em]">
+        06 services listening
+      </div>
+    </div>
+  );
+}
 
-        {/* ── Filter tabs ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex flex-wrap gap-2 mb-10"
-        >
-          {TABS.map(({ label, icon: Icon }) => {
-            const isActive = activeTag === label;
-            return (
-              <button
-                key={label}
-                onClick={() => setActiveTag(label)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-all duration-200
-                  ${isActive
-                    ? "bg-cyber-cyan/10 border-cyber-cyan/50 text-cyber-cyan"
-                    : "border-cyber-border text-muted-foreground hover:text-foreground hover:border-cyber-cyan/30 hover:bg-cyber-surface"
-                  }`}
+function ProjectVisual({ kind }: { kind: Project["kind"] }) {
+  if (kind === "mcp") return <MCPVisual />;
+  if (kind === "forensics") return <ForensicsVisual />;
+  if (kind === "honeypot") return <HoneypotVisual />;
+  return <SentinelVisual />;
+}
+
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  return (
+      <article
+        className="project-card"
+        style={{
+          "--project-bg": project.background,
+          "--project-ink": project.ink,
+          "--visual-accent": project.accent,
+          zIndex: index + 1,
+        } as React.CSSProperties}
+      >
+        <div className="project-noise" />
+        <div className="site-shell relative z-10 grid min-h-full gap-8 py-8 md:grid-cols-12 md:gap-6 md:py-12">
+          <div className="flex flex-col justify-between border-b border-current/30 pb-5 md:col-span-2 md:border-b-0 md:border-r md:pb-0 md:pr-6">
+            <div>
+              <div className="font-mono text-[0.65rem] uppercase tracking-[0.12em]">Case / {project.number}</div>
+              <div className="mt-3 text-sm opacity-65">{project.label}</div>
+            </div>
+            <div className="mt-5 font-mono text-[0.58rem] uppercase leading-[1.7] tracking-[0.08em] opacity-65 md:mt-0">
+              {project.callouts.map((item) => <div key={item}>{item}</div>)}
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between md:col-span-4 md:px-3">
+            <div>
+              <motion.h3
+                initial={{ opacity: 0, y: 45 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ amount: 0.4 }}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[clamp(3rem,7vw,7.5rem)] font-bold leading-[0.84] tracking-[-0.075em]"
               >
-                <Icon className="w-3.5 h-3.5" />
-                {label}
-                <span className="font-terminal text-[10px] opacity-70">
-                  ({label === "All" ? projects.length : projects.filter(p => p.tags.includes(label as Tag)).length})
-                </span>
-              </button>
-            );
-          })}
-        </motion.div>
+                {project.name}
+              </motion.h3>
+              <p className="mt-7 max-w-xl text-base font-medium leading-[1.45] tracking-[-0.015em] opacity-85 md:text-lg">
+                {project.description}
+              </p>
+            </div>
 
-        {/* ── Project grid ── */}
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => (
-              <ProjectCard key={project.title} project={project} index={i} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+            <div className="mt-8 md:mt-10">
+              <div className="grid grid-cols-2 border-t border-current/35 font-mono text-[0.58rem] uppercase tracking-[0.06em]">
+                {project.details.map((detail) => (
+                  <div className="border-b border-current/35 py-3 odd:pr-3 even:border-l even:pl-3" key={detail}>
+                    {detail}
+                  </div>
+                ))}
+              </div>
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group mt-6 inline-flex items-center gap-3 border-b border-current pb-1 font-mono text-[0.68rem] uppercase tracking-[0.08em]"
+              >
+                <GitHubIcon className="h-3.5 w-3.5" />
+                View repository
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+            </div>
+          </div>
 
-        {/* ── Bottom CTA ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-12 text-center"
-        >
-          <p className="text-muted-foreground text-sm mb-4">
-            Want to see more? All my work is on GitHub.
-          </p>
-          <a
-            href="https://github.com/Ashiii27"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-cyber-cyan/40 text-cyber-cyan font-terminal text-sm hover:bg-cyber-cyan/10 hover:border-cyber-cyan transition-all duration-200"
+          <motion.div
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            whileInView={{ clipPath: "inset(0 0 0% 0)" }}
+            viewport={{ amount: 0.25 }}
+            transition={{ duration: 0.8, delay: 0.08, ease: [0.76, 0, 0.24, 1] }}
+            className="self-center md:col-span-6"
           >
-            <GitHubIcon className="w-4 h-4" />
-            github.com/Ashiii27
-          </a>
-        </motion.div>
+            <ProjectVisual kind={project.kind} />
+          </motion.div>
+        </div>
+      </article>
+  );
+}
 
+export default function Projects() {
+  return (
+    <section id="work" className="bg-[#191917] text-[#f0eee7]">
+      <div className="site-shell grid gap-8 py-20 md:grid-cols-12 md:py-28">
+        <div className="md:col-span-3">
+          <span className="eyebrow text-[#f04d2f]">Selected work</span>
+        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.7 }}
+          className="md:col-span-8 md:col-start-5"
+        >
+          <h2 className="text-balance text-[clamp(2.7rem,6.4vw,6.8rem)] font-semibold leading-[0.95] tracking-[-0.065em]">
+            Security tools built from the wire <span className="display-serif text-[#f04d2f]">up.</span>
+          </h2>
+          <p className="mt-7 max-w-2xl text-base leading-relaxed text-[#f0eee7]/62 md:text-lg">
+            Selected systems where detection logic, engineering discipline, and a usable interface all matter.
+          </p>
+        </motion.div>
+      </div>
+
+      {projects.map((project, index) => (
+        <ProjectCard project={project} index={index} key={project.name} />
+      ))}
+
+      <div className="site-shell flex flex-col items-start justify-between gap-6 border-t border-[#f0eee7]/30 py-12 md:flex-row md:items-center">
+        <div>
+          <div className="font-mono text-[0.62rem] uppercase tracking-[0.1em] text-[#f0eee7]/50">Project archive</div>
+          <p className="mt-2 text-lg">CVE Explorer, automation scripts, CTF tooling, and more.</p>
+        </div>
+        <a
+          href="https://github.com/Ashiii27?tab=repositories"
+          target="_blank"
+          rel="noreferrer"
+          className="link-arrow"
+        >
+          Browse all repositories <ArrowUpRight className="h-3.5 w-3.5" />
+        </a>
       </div>
     </section>
   );
